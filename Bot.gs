@@ -1,4 +1,4 @@
-/*Подключение 
+/*Подключение */
 // https://api.telegram.org/bot<token>/setWebHook?url=<....>/exec
 
 function changes(nameid){
@@ -26,7 +26,7 @@ function changes(nameid){
 
 
 function doPost(e) {
-  var API_TOKEN = '***';//API бота получается у BotFather
+  var API_TOKEN = '***';//API бота получить у BotFather
   var str="";
   
   /* Ответное текстовое сообщение */
@@ -119,7 +119,7 @@ function doPost(e) {
     var e= sheet2.getRange(1,1).getValue()
     sheet2.getRange(1,1).setValue(update.update_id)
     
-	/* Загрузка до 20 мб */
+    /* Загрузка до 20 мб */
     if (msg.hasOwnProperty('document') || msg.hasOwnProperty('photo')){
       if (msg.hasOwnProperty('document')){
           t_post_html('Ого какой файл. Там, что-то важное ? Придется потрудиться, чтобы его осилить')
@@ -169,11 +169,11 @@ function doPost(e) {
     }
 	
 	if (msg.text=="***"){
-	  query(msg.text,"1") /*вызвали клавиатуру
+	  query(msg.text,"1") //вызвали клавиатуру
 	}
     
     if (msg.text=="*****"){
-       /*В зависимости от того, что ввел пользователь (сам или нажал на inline клавиатуру) выполняем что-либо
+       /*В зависимости от того, что ввел пользователь (сам или нажал на inline клавиатуру) выполняем что-либо*/
     }
     
     ////////////////// Запрос новостей ///////////////
@@ -192,7 +192,7 @@ function doPost(e) {
     }
        
     if (msg.text=='Фото'){
-       arr=changes("****")/*отправляем id папки содержимое которой хотим вытащить
+       arr=changes("****")//отправляем id папки содержимое которой хотим вытащить
        for (var k=0;k< arr.length;k++)
            t_post_photo(arr[k][1])
     }
