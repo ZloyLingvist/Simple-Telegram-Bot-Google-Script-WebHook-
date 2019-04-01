@@ -25,9 +25,115 @@ function changes(nameid){
 }
 
 
+
 function doPost(e) {
   var API_TOKEN = '***';//API бота получить у BotFather
   var str="";
+  
+   function t_post_html_mod(posttext,chid) {
+    var payload = {
+          'method': 'sendMessage',
+          'chat_id': String(chid),
+          'text': posttext,
+          'parse_mode': 'HTML'
+        }
+        var data = {
+          "method": "post",
+          "payload": payload
+        }
+ 
+    UrlFetchApp.fetch('https://api.telegram.org/bot' + API_TOKEN + '/', data);
+  }
+  
+  function sendSticker(posttext){
+     var payload = {
+          'method': 'sendSticker',
+          'chat_id': String(chatId),
+          'sticker': posttext,
+        }
+        var data = {
+          "method": "post",
+          "payload": payload
+        }
+ 
+    UrlFetchApp.fetch('https://api.telegram.org/bot' + API_TOKEN + '/', data);
+  }
+  
+   function t_post_video(posttext) {
+    var payload = {
+          'method': 'sendVideo',
+          'chat_id': String(chatId),
+          'video': posttext,
+        }
+        var data = {
+          "method": "post",
+          "payload": payload
+        }
+ 
+    UrlFetchApp.fetch('https://api.telegram.org/bot' + API_TOKEN + '/', data);
+  }
+  
+  function query_inline(posttext,mode){
+    if (mode=="3"){
+          var ikb={
+            'inline_keyboard': [
+                [
+               {text: "1 1", callback_data: 'pr_1_1'},
+               {text: "1 2", callback_data: 'pr_1_2'},   
+                ]
+            ],
+             switch_inline_query: false
+         }
+          
+    }
+    
+    var payload = {
+       'method': 'sendMessage',
+       'chat_id': String(chatId),
+       'text': posttext,
+       "parse_mode": "Markdown",
+       'reply_markup': JSON.stringify(ikb)   
+    }
+     
+    var data = {
+           "method": "post",
+           'contentType': 'application/json',
+           'payload' : JSON.stringify(payload)
+    }
+   
+    UrlFetchApp.fetch('https://api.telegram.org/bot' + API_TOKEN + '/', data);
+  }
+                
+  function query_keyb(posttext,mode,chid,mid){
+   if (mode=="1"){ 
+        var ikb={
+            'inline_keyboard': [
+                [
+                   {text: "***", callback_data: '----'},
+                   {text: "***", callback_data: '---'}
+                ]
+            ],
+             switch_inline_query: false
+         }
+   }
+                         
+   var payload = {
+       'method': 'editMessageText',
+       'chat_id': String(chid),
+       'message_id': String(mid),
+       'text': posttext,
+       "parse_mode": "Markdown",
+       'reply_markup': JSON.stringify(ikb)     
+    }
+    
+    var data = {
+         "method": "post",
+          'contentType': 'application/json',
+          'payload' : JSON.stringify(payload)
+    }
+  
+    UrlFetchApp.fetch('https://api.telegram.org/bot' + API_TOKEN + '/', data);
+ }
   
   /* Ответное текстовое сообщение */
   function t_post_html(posttext) {
@@ -211,5 +317,12 @@ function doPost(e) {
        t_post_html(string)
        t_post_html('Готово!')
     }
+  }
+  
+  if (update.hasOwnProperty('callback_query')){
+     if (update.callback_query.data=="----"){
+       t_post_html_mod('****',update.callback_query.message.chat.id)
+       t_post_html_mod('****',update.callback_query.message.chat.id)
+     }
   }
 }
